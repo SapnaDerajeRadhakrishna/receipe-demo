@@ -1,5 +1,6 @@
 package org.maxwell.recipe.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,6 +30,8 @@ public class Recipe {
 	private Integer servings;
 	private String source;
 	private String url;
+
+	@Lob
 	private String directions;
 
 	@Lob
@@ -38,14 +41,14 @@ public class Recipe {
 	private Difficulty difficulty;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Ingredient> ingredient;
+	private Set<Ingredient> ingredients = new HashSet<>();
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Notes notes;
 
 	@ManyToMany
 	@JoinTable(name = "recipe_category", joinColumns = @JoinColumn(name = "recipe_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> categories;
+	private Set<Category> categories = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -125,14 +128,7 @@ public class Recipe {
 
 	public void setNotes(Notes notes) {
 		this.notes = notes;
-	}
-
-	public Set<Ingredient> getIngredient() {
-		return ingredient;
-	}
-
-	public void setIngredient(Set<Ingredient> ingredient) {
-		this.ingredient = ingredient;
+		notes.setRecipe(this);
 	}
 
 	public Difficulty getDifficulty() {
@@ -149,6 +145,20 @@ public class Recipe {
 
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	public Recipe addIngredient(Ingredient ingredient) {
+		ingredient.setRecipe(this);
+		this.ingredients.add(ingredient);
+		return this;
+	}
+
+	public Set<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(Set<Ingredient> ingredients) {
+		this.ingredients = ingredients;
 	}
 
 }
