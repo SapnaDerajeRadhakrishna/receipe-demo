@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Component
 @Slf4j
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -37,6 +39,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 	}
 
 	@Override
+	@Transactional
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		recipeRepository.saveAll(getRecipes());
 	}
