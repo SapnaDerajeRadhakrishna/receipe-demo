@@ -8,8 +8,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
 
 	private final CategoryToCategoryCommand categoryConveter;
@@ -30,6 +32,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
 		if (source == null) {
 			return null;
 		}
+		log.debug("source:{}", source.getId());
 
 		final RecipeCommand command = new RecipeCommand();
 		command.setId(source.getId());
@@ -42,6 +45,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
 		command.setSource(source.getSource());
 		command.setUrl(source.getUrl());
 		command.setNotes(notesConverter.convert(source.getNotes()));
+		command.setImage(source.getImage());
 
 		if (source.getCategories() != null && source.getCategories().size() > 0) {
 			source.getCategories()
