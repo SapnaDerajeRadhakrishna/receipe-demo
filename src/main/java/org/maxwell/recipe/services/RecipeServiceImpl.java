@@ -8,6 +8,7 @@ import org.maxwell.recipe.commands.RecipeCommand;
 import org.maxwell.recipe.converters.RecipeCommandToRecipe;
 import org.maxwell.recipe.converters.RecipeToRecipeCommand;
 import org.maxwell.recipe.domain.Recipe;
+import org.maxwell.recipe.exceptions.NotFoundException;
 import org.maxwell.recipe.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,6 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	public Set<Recipe> getRecipes() {
 		log.debug("I'm in the service");
-
 		Set<Recipe> recipeSet = new HashSet<>();
 		recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
 		return recipeSet;
@@ -40,13 +40,10 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public Recipe findById(Long l) {
-
 		Optional<Recipe> recipeOptional = recipeRepository.findById(l);
-
 		if (!recipeOptional.isPresent()) {
-			throw new RuntimeException("Recipe Not Found!");
+			throw new NotFoundException("Recipe Not Found for the id with value: " + l.toString());
 		}
-
 		return recipeOptional.get();
 	}
 
@@ -60,7 +57,6 @@ public class RecipeServiceImpl implements RecipeService {
 	@Transactional
 	public RecipeCommand saveRecipeCommand(RecipeCommand command) {
 		Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
-
 		Recipe savedRecipe = recipeRepository.save(detachedRecipe);
 		log.debug("Saved RecipeId:" + savedRecipe.getId());
 		return recipeToRecipeCommand.convert(savedRecipe);
