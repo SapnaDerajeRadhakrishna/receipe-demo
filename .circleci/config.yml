@@ -39,11 +39,11 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
         
       # run tests and run code coverage!
-      - run: gradle test cobertura
+      - run: gradle test jacocoTestReport
 
       #store the test results
       - store_test_results:
-          path: build/reports/cobertura
+          path: build/reports/coverage
 
       - run:
           name: Send to CodeCov
