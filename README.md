@@ -1,4 +1,7 @@
-https://circleci.com/gh/SapnaDerajeRadhakrishna/receipe-demo/tree/master.svg?style=svg
+
+Spring Boot Recipe Application
 
 
-Spring Boot Recipe Application with circle-ci
+[![CircleCI](https://circleci.com/gh/SapnaDerajeRadhakrishna/receipe-demo/tree/master.svg?style=svg)](https://circleci.com/gh/SapnaDerajeRadhakrishna/receipe-demo/tree/master)
+
+
