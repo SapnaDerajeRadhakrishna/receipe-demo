@@ -41,6 +41,10 @@ jobs:
       # run tests and run code coverage!
       - run: gradle test cobertura
 
+      #store the test results
+      - store_test_results:
+          path: build/test-results/test/
+
       - run:
           name: Send to CodeCov
           command: bash <(curl -s https://codecov.io/bash)
