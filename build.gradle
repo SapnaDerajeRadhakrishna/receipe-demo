@@ -8,7 +8,7 @@ buildscript {
         }
         dependencies {
                 classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-                classpath("net.saliman:gradle-cobertura-plugin:2.5.4")
+                //classpath("net.saliman:gradle-cobertura-plugin:2.5.4")
         }
 }
 
@@ -16,7 +16,8 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'net.saliman.cobertura'
+//apply plugin: 'net.saliman.cobertura'
+
 
 group = 'org.maxwell'
 version = '0.0.1-SNAPSHOT'
@@ -24,8 +25,16 @@ sourceCompatibility = 1.8
 
 repositories {
         mavenCentral()
-        mavenLocal()
+       // mavenLocal()
 }
+
+/*configurations.all {
+    resolutionStrategy {
+        // Cobertura includes an ASM version that can't handle Java 8, ASM 5.0.3 handles Java8
+        force 'org.ow2.asm:asm:5.0.3'
+        forcedModules = [ 'org.ow2.asm:asm:5.0.3' ]
+    }
+}*/
 
 
 dependencies {
@@ -37,19 +46,25 @@ dependencies {
         runtime('org.springframework.boot:spring-boot-devtools')
         runtime('com.h2database:h2')
         testCompile('org.springframework.boot:spring-boot-starter-test')
+        //testRuntime('org.slf4j:slf4j-log4j12:1.7.5')
+		//testRuntime('log4j:log4j:1.2.7')
 }
 
 test {
-    filter {
-        
+	testLogging {
+        // Show that tests are run in the command-line output
+        events "PASSED", "FAILED", "SKIPPED"
+        exceptionFormat "short"
+        // showStandardStreams = true
     }
+    outputs.upToDateWhen { false }
 }
 
-cobertura {
-    coverageFormats = ['html', 'xml']				
+/*cobertura {
+	coverageFormats = ['html', 'xml']				
     coverageIgnoreTrivial = true					
     coverageIgnores = ['org.slf4j.Logger.*']			
     coverageReportDir = new File("$buildDir/reports/cobertura")	
-}
+}*/
 
-test.finalizedBy(project.tasks.cobertura)
+//test.finalizedBy(project.tasks.cobertura)
