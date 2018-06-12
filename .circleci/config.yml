@@ -43,7 +43,7 @@ jobs:
 
       #store the test results
       - store_test_results:
-          path: build/test-results/test/
+          path: build/reports/cobertura/
 
       - run:
           name: Send to CodeCov
