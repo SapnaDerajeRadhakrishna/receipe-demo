@@ -7,6 +7,7 @@ buildscript {
         }
         dependencies {
                 classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+                classpath("net.saliman:gradle-cobertura-plugin:2.5.4")
         }
 }
 
@@ -14,6 +15,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'net.saliman.cobertura'
 
 group = 'org.maxwell'
 version = '0.0.1-SNAPSHOT'
